@@ -7,7 +7,10 @@ interface FetchMoviesProps {
 }
 
 axios.defaults.baseURL = "https://api.themoviedb.org/3/search/";
-export default async function fetchMovies(topic: string, page: number) {
+export default async function fetchMovies(
+  topic: string,
+  page: number
+): Promise<FetchMoviesProps> {
   const apiReadKey = import.meta.env.VITE_API_KEY;
   const options = {
     method: "GET",
