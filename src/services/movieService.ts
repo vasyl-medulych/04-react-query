@@ -1,12 +1,13 @@
 import axios from "axios";
 import type { Movie } from "../types/movie";
 
-interface FetchMoviesResponce {
+interface FetchMoviesProps {
   results: Movie[];
+  total_pages: number;
 }
 
 axios.defaults.baseURL = "https://api.themoviedb.org/3/search/";
-export default async function fetchMovies(topic: string) {
+export default async function fetchMovies(topic: string, page: number) {
   const apiReadKey = import.meta.env.VITE_API_KEY;
   const options = {
     method: "GET",
@@ -15,12 +16,10 @@ export default async function fetchMovies(topic: string) {
       Authorization: `Bearer ${apiReadKey}`,
     },
   };
-  const res = await axios.get<FetchMoviesResponce>(
-    `movie?query=${topic}`,
+  const res = await axios.get<FetchMoviesProps>(
+    `movie?query=${topic}&page=${page}`,
     options
   );
 
-  const { results } = res.data;
-
-  return results;
+  return res.data;
 }
